@@ -154,7 +154,7 @@ backup-auto list --dest /backups/www
 
 ```bash
 # Clone the repository
-git clone https://github.com/YOUR_USERNAME/devops-productivity-tools.git
+git clone https://github.com/Shevanio/devops-productivity-tools.git
 cd devops-productivity-tools
 
 # Create virtual environment
