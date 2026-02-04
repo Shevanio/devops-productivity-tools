@@ -51,24 +51,37 @@ git-cleaner --remote --dry-run
 ---
 
 ### 2. **Docker Image Analyzer** (`docker-analyzer`)
-Analyze Docker images for size optimization and basic vulnerabilities.
+Analyze Docker images for size optimization and layer breakdown.
 
 **Features:**
-- Layer-by-layer size breakdown
-- Identify large files/directories
-- Suggest optimization opportunities
-- Basic CVE scanning
-- Compare image versions
-- Export reports
+- Layer-by-layer size breakdown with visual bars
+- Identify largest layers and commands
+- Optimization suggestions (base image, cache cleanup, layer count)
+- Compare image versions side-by-side
+- Pull images automatically
+- Multiple output formats (rich, JSON)
+- APT/npm cache detection
+- Self-signed certificate detection
 
 **Usage:**
 ```bash
+# Analyze an image
 docker-analyzer --image nginx:latest
-docker-analyzer --image myapp:v1.2 --compare myapp:v1.1
-docker-analyzer --image node:18 --export report.json
+
+# Compare two versions
+docker-analyzer --image myapp:v1.0 --compare myapp:v2.0
+
+# Pull and analyze
+docker-analyzer --image python:3.11-alpine --pull
+
+# Show optimization suggestions
+docker-analyzer --image myapp:latest --suggestions
+
+# JSON output
+docker-analyzer --image nginx --output json
 ```
 
-**Status:** 📋 Planned
+**Status:** 🚧 Complete (MVP)
 
 ---
 
@@ -250,13 +263,12 @@ Have an idea for a new productivity tool? Open an issue with the `enhancement` l
 ## 📊 Project Roadmap
 
 - [x] Project setup and structure
-- [ ] Git Branch Cleaner MVP (Phase 1)
-- [ ] Docker Analyzer MVP (Phase 1)
+- [x] Git Branch Cleaner MVP (Phase 1) ✅
+- [x] Docker Analyzer MVP (Phase 1) ✅
 - [ ] Log Parser MVP (Phase 2)
 - [ ] Env Manager MVP (Phase 2)
 - [ ] Backup Automator MVP (Phase 2)
 - [ ] Integration testing suite
-- [ ] CI/CD pipeline
 - [ ] Published pip package
 - [ ] GUI wrapper (optional, Phase 3)
 
