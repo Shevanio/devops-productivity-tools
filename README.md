@@ -86,24 +86,44 @@ docker-analyzer --image nginx --output json
 ---
 
 ### 3. **Log Parser** (`log-parser`)
-Extract insights from log files (nginx, systemd, application logs).
+Extract insights from log files with multiple format support.
 
 **Features:**
-- Pattern-based error extraction
-- Common log format parsers (nginx, Apache, JSON logs)
-- Statistics and summaries
-- Time-based filtering
-- Export to JSON/CSV
-- Real-time log monitoring
+- Multiple format parsers (nginx, Apache, JSON, syslog, Python, Docker)
+- Auto-format detection
+- Level-based filtering (ERROR, WARNING, INFO, etc.)
+- Pattern matching with regex
+- Time-range filtering (--since, --until, --last)
+- Statistics and summaries (level distribution, top errors, timeline)
+- Visual charts and tables
+- Multiple output formats (table, JSON)
+- Errors-only mode
 
 **Usage:**
 ```bash
-log-parser --file /var/log/nginx/access.log --errors-only
-log-parser --file app.log --pattern "ERROR|CRITICAL" --last 1h
-log-parser --file syslog --stats --export stats.json
+# Parse and show stats
+log-parser /var/log/nginx/access.log --stats
+
+# Show only errors
+log-parser app.log --errors-only
+
+# Filter by level
+log-parser app.log --level ERROR --level CRITICAL
+
+# Filter by pattern
+log-parser app.log --pattern "database.*error"
+
+# Last hour
+log-parser app.log --last 1h
+
+# Time range
+log-parser app.log --since "2024-01-01 10:00:00" --until "2024-01-01 12:00:00"
+
+# JSON output
+log-parser app.log --output json > report.json
 ```
 
-**Status:** 📋 Planned
+**Status:** 🚧 Complete (MVP)
 
 ---
 
@@ -265,7 +285,7 @@ Have an idea for a new productivity tool? Open an issue with the `enhancement` l
 - [x] Project setup and structure
 - [x] Git Branch Cleaner MVP (Phase 1) ✅
 - [x] Docker Analyzer MVP (Phase 1) ✅
-- [ ] Log Parser MVP (Phase 2)
+- [x] Log Parser MVP (Phase 1) ✅
 - [ ] Env Manager MVP (Phase 2)
 - [ ] Backup Automator MVP (Phase 2)
 - [ ] Integration testing suite
