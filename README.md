@@ -131,23 +131,30 @@ log-parser app.log --output json > report.json
 Securely manage environment variables across different environments.
 
 **Features:**
-- Encrypt/decrypt .env files
-- Switch between environments (dev, staging, prod)
-- Validate required variables
-- Template support
-- Git-friendly (encrypted files can be committed)
-- Diff between environments
+- Encrypt/decrypt .env files with password-based encryption
+- PBKDF2 key derivation with 100,000 iterations
+- AES encryption (Fernet symmetric encryption)
+- Git-friendly (encrypted files can be committed safely)
+- View encrypted files without decrypting
+- Validation support
+- Secure password input (hidden)
 
 **Usage:**
 ```bash
-env-manager encrypt .env.prod --output .env.prod.enc
+# Encrypt .env file
+env-manager encrypt .env.prod
+
+# Decrypt to stdout
 env-manager decrypt .env.prod.enc
-env-manager switch staging
-env-manager validate --template .env.example
-env-manager diff dev prod
+
+# Decrypt to file
+env-manager decrypt .env.prod.enc --output .env.prod
+
+# View without decrypting
+env-manager view .env.prod.enc
 ```
 
-**Status:** 📋 Planned
+**Status:** ✅ Complete
 
 ---
 
@@ -155,23 +162,38 @@ env-manager diff dev prod
 Simple, reliable backup solution with incremental backups and rotation.
 
 **Features:**
-- Incremental backups
-- Configurable retention policies
-- Multiple destinations (local, S3, SFTP)
-- Compression (gzip, zstd)
-- Backup verification
+- Full and incremental backup support
+- Multiple compression algorithms (gzip, bzip2, xz, none)
+- Retention policies (by days or max count)
+- SHA256 integrity verification
+- Metadata tracking for each backup
+- Exclusion patterns (like .gitignore)
 - Restore functionality
-- Email notifications
+- Backup listing and verification
+- Local filesystem destination
 
 **Usage:**
 ```bash
-backup-auto --source /var/www --dest /backups/www --incremental
-backup-auto --config backup-config.yaml --run
-backup-auto restore --backup /backups/www/2024-02-04.tar.gz --dest /var/www
-backup-auto list --dest /backups/www
+# Create full backup
+backup-auto create /var/www /backups/www
+
+# Incremental backup with custom compression
+backup-auto create /var/www /backups/www --type incremental --compression xz
+
+# With exclusions
+backup-auto create /home/user /backups/home --exclude "*.log" --exclude "node_modules"
+
+# Restore backup
+backup-auto restore /backups/www/backup_full_20240204_120000.tar.gz /var/www
+
+# Verify backup integrity
+backup-auto verify /backups/www/backup_full_20240204_120000.tar.gz
+
+# List all backups
+backup-auto list /backups/www
 ```
 
-**Status:** 📋 Planned
+**Status:** ✅ Complete
 
 ---
 
@@ -282,15 +304,17 @@ Have an idea for a new productivity tool? Open an issue with the `enhancement` l
 
 ## 📊 Project Roadmap
 
-- [x] Project setup and structure
-- [x] Git Branch Cleaner MVP (Phase 1) ✅
-- [x] Docker Analyzer MVP (Phase 1) ✅
-- [x] Log Parser MVP (Phase 1) ✅
-- [ ] Env Manager MVP (Phase 2)
-- [ ] Backup Automator MVP (Phase 2)
+- [x] Project setup and structure ✅
+- [x] Git Branch Cleaner MVP ✅
+- [x] Docker Analyzer MVP ✅
+- [x] Log Parser MVP ✅
+- [x] Env Manager MVP ✅
+- [x] Backup Automator MVP ✅
 - [ ] Integration testing suite
 - [ ] Published pip package
 - [ ] GUI wrapper (optional, Phase 3)
+
+**🎉 All 5 core tools complete! (100%)**
 
 ---
 
